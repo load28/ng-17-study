@@ -9,6 +9,7 @@ import { RouterOutlet } from '@angular/router';
 import { ButtonComponent } from './components/button/button.component';
 import { ItemComponent, ListComponent } from './components/list/list.component';
 import { OnPushComponent } from './components/on-push/on-push.component';
+import { StoreTestComponent } from './components/store/store-test.component';
 
 @Component({
   selector: 'app-root',
@@ -20,13 +21,14 @@ import { OnPushComponent } from './components/on-push/on-push.component';
     ListComponent,
     ItemComponent,
     OnPushComponent,
+    StoreTestComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements AfterViewInit {
   title = 'ng-17';
-  flag = true;
+  flag = false;
 
   @ViewChildren(ButtonComponent) buttons:
     | QueryList<ButtonComponent>
