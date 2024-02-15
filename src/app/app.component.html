@@ -3,7 +3,24 @@
 <button type="button" app-button></button>
 }
 
-<app-on-push></app-on-push>
 <app-list> </app-list> -->
 
-<app-test-store></app-test-store>
+<!-- <app-on-push></app-on-push> -->
+<!-- <div>
+  <div actionGroup>
+    <div *ngIf="flag" action [actionName]="'create1'" (actionEvent)="create()">
+      create
+      <div>
+        <button action [actionName]="'update'" (actionEvent)="update()">
+          update
+        </button>
+      </div>
+    </div>
+  </div>
+  <div actionGroup>
+    <button action [actionName]="'create2'" (actionEvent)="create()">
+      create2
+    </button>
+  </div>
+</div> -->
+<div [innerHTML]="normalString"></div>

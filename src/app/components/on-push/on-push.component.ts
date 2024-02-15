@@ -1,9 +1,12 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
+import { ActionGroupDirective } from '../action-group.directive';
+import { ActionDirective } from '../action.directive';
 
 @Component({
   selector: 'app-on-push',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ActionGroupDirective, ActionDirective],
   template: `
     <button type="button" (click)="onView()">view</button>
     @if(flag) {
@@ -12,6 +15,10 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
     <div>flagSignal is true</div>
     }
     <input type="text" value="2" />
+
+    <div actionGroup>
+      <button action="a" [actionName]="'asdfd'">a</button>
+    </div>
   `,
 })
 export class OnPushComponent {
