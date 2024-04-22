@@ -43,8 +43,9 @@ jobs:
 
       - name: Check PR label
         run: |
-          PR_LABEL_COUNT="${{ github.event.pull_request.labels | jq length}}"
-          echo "PR labels: $PR_LABELS"
+          PR_LABELS="${{ github.event.pull_request.labels }}"
+          PR_LABEL_COUNT=${#PR_LABELS[@]}
+          echo "PR labels: $PR_LABEL_COUNT"
           if [[ $PR_LABEL_COUNT -eq 0 ]]; then
             echo "PR does not have any labels"
             exit 1
