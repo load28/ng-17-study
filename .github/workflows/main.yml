@@ -28,7 +28,7 @@ jobs:
         run: |
           npx eslint .
 
-  title-check:
+  check-pr-vlidation:
     runs-on: ubuntu-latest
     steps:
       - name: Check PR title
