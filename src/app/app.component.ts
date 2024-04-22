@@ -178,6 +178,5 @@ export class AppComponent {
 
   giveFreeShort(): void {
     const freeShirtColor = this.orderData.giveFreeShort();
-    console.log(`무료 증정 셔츠 색상: ${freeShirtColor}`);
   }
 }
