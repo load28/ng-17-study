@@ -52,5 +52,16 @@ jobs:
           fi
         shell: bash
 
+      - name: Check PR milestone
+        run: |
+          PR_MILESTONE="${{ github.event.pull_request.milestone }}"
+          if [ -z "$PR_MILESTONE" ]; then
+            echo "PR does not have a milestone"
+            exit 1
+          else
+            echo "PR milestone: $PR_MILESTONE"
+          fi
+        shell: bash
+
 
 
