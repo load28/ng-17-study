@@ -128,11 +128,7 @@ export class AppComponent implements AfterViewInit {
 
   onClickedButton() {}
 
-  create() {
-    console.log('excute create!!!!!!!!!!!!!!!!!!!');
-  }
+  create() {}
 
-  update() {
-    console.log('excute update!!!!!!!!!!!!!!!!!!!');
-  }
+  update() {}
 }
