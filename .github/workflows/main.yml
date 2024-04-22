@@ -41,5 +41,15 @@ jobs:
           fi
         shell: bash
 
+      - name: Check PR label
+        run: |
+          PR_LABELS="${{ github.event.pull_request.labels }}"
+          echo "PR labels: $PR_LABELS"
+          if [[ -z "$PR_LABELS" ]]; then
+            echo "PR does not have any labels"
+            exit 1
+          fi
+        shell: bash
+
 
 
