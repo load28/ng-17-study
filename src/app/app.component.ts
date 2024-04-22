@@ -1,7 +1,6 @@
-import {CommonModule} from '@angular/common';
-import {Component, inject, Injectable,} from '@angular/core';
-import {RouterOutlet} from '@angular/router';
-
+import { CommonModule } from '@angular/common';
+import { Component, inject, Injectable } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 /**
  * 구현하는 기능
@@ -9,7 +8,7 @@ import {RouterOutlet} from '@angular/router';
  * 2. 무료 증정 셔츠를 줄 수 있되 색상은 고르거나 가장 적게 팔린 색상을 준다.
  */
 
-type OrderData = { date: string; shirtColor: ShirtColor; amount: number; };
+type OrderData = { date: string; shirtColor: ShirtColor; amount: number };
 type UserId = string;
 
 type OrderParams = {
@@ -18,8 +17,8 @@ type OrderParams = {
     userId: UserId;
     shirtColor: ShirtColor;
     amount: number;
-  }
-}
+  };
+};
 
 type UpdateOrderParams = {
   type: 'UpdateOrder';
@@ -28,16 +27,16 @@ type UpdateOrderParams = {
     userId: UserId;
     shirtColor: ShirtColor;
     amount: number;
-  }
-}
+  };
+};
 
 enum ShirtColor {
-  Red = "Red",
-  Blue = "Blue",
-  Green = "Green",
-  Yellow = "Yellow",
-  Black = "Black",
-  White = "White",
+  Red = 'Red',
+  Blue = 'Blue',
+  Green = 'Green',
+  Yellow = 'Yellow',
+  Black = 'Black',
+  White = 'White',
 }
 
 /**
@@ -53,7 +52,7 @@ export class ShortOrderService {
 
   constructor() {
     // salesMap을 모든 색상이 0으로 설정하여 초기화
-    Object.values(ShirtColor).forEach(color => this.salesMap.set(color, 0));
+    Object.values(ShirtColor).forEach((color) => this.salesMap.set(color, 0));
   }
 
   orderShort(params: OrderParams | UpdateOrderParams): void {
@@ -70,12 +69,15 @@ export class ShortOrderService {
    * @private
    */
   private order(params: OrderParams): void {
-    const {userId, shirtColor, amount} = params.date;
+    const { userId, shirtColor, amount } = params.date;
     const orderData = this.orderMap.get(userId) || [];
-    orderData.push({date: new Date().toISOString(), shirtColor, amount});
+    orderData.push({ date: new Date().toISOString(), shirtColor, amount });
     this.orderMap.set(userId, orderData);
 
-    this.salesMap.set(shirtColor, (this.salesMap.get(shirtColor) || 0) + amount);
+    this.salesMap.set(
+      shirtColor,
+      (this.salesMap.get(shirtColor) || 0) + amount,
+    );
   }
 
   /**
@@ -84,21 +86,27 @@ export class ShortOrderService {
    * @private
    */
   private updateOrder(params: UpdateOrderParams): void {
-    const {date, userId, shirtColor, amount} = params.date;
+    const { date, userId, shirtColor, amount } = params.date;
     const orderData = this.orderMap.get(userId) || [];
-    const index = orderData.findIndex(data => data.date === date);
+    const index = orderData.findIndex((data) => data.date === date);
     if (index === -1) {
       throw new Error('주문 기록이 없습니다.');
     }
 
     // 기존 주문의 셔츠 색상을 찾아 salesMap에서 감소
     const oldShirtColor = orderData[index].shirtColor;
-    this.salesMap.set(oldShirtColor, (this.salesMap.get(oldShirtColor) || 0) - orderData[index].amount);
+    this.salesMap.set(
+      oldShirtColor,
+      (this.salesMap.get(oldShirtColor) || 0) - orderData[index].amount,
+    );
 
     // 새로운 셔츠 색상의 카운트를 증가
-    this.salesMap.set(shirtColor, (this.salesMap.get(shirtColor) || 0) + amount);
+    this.salesMap.set(
+      shirtColor,
+      (this.salesMap.get(shirtColor) || 0) + amount,
+    );
 
-    orderData[index] = {date, shirtColor, amount};
+    orderData[index] = { date, shirtColor, amount };
     this.orderMap.set(userId, orderData);
   }
 
@@ -128,15 +136,15 @@ export class ShortOrderService {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterOutlet,
-  ],
+  imports: [CommonModule, RouterOutlet],
   template: `
     <div>
       <h1>Short Order Service</h1>
       <p>주문을 받아 셔츠를 준비합니다.</p>
-      <p>무료 증정 셔츠를 줄 수 있되 색상은 고르거나 가장 적게 팔린 색상을 줍니다.</p>
+      <p>
+        무료 증정 셔츠를 줄 수 있되 색상은 고르거나 가장 적게 팔린 색상을
+        줍니다.
+      </p>
     </div>
     <button (click)="orderShort()">주문하기</button>
   `,
@@ -145,11 +153,18 @@ export class ShortOrderService {
 export class AppComponent {
   private readonly orderData = inject(ShortOrderService);
 
+  constructor() {
+    console.log('AppComponent created');
+  }
+
   orderShort(): void {
     const userId = 'test';
     const shirtColor = ShirtColor.Red;
     const amount = 1;
-    this.orderData.orderShort({type: 'Order', date: {userId, shirtColor, amount}});
+    this.orderData.orderShort({
+      type: 'Order',
+      date: { userId, shirtColor, amount },
+    });
   }
 
   updateOrder(): void {
@@ -157,7 +172,10 @@ export class AppComponent {
     const shirtColor = ShirtColor.Red;
     const amount = 1;
     const date = new Date().toISOString();
-    this.orderData.orderShort({type: 'UpdateOrder', date: {date, userId, shirtColor, amount}});
+    this.orderData.orderShort({
+      type: 'UpdateOrder',
+      date: { date, userId, shirtColor, amount },
+    });
   }
 
   giveFreeShort(): void {
