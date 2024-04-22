@@ -35,8 +35,7 @@ jobs:
         run: |
           PR_TITLE="${{ github.event.pull_request.title }}"
           echo "PR title: $PR_TITLE"
-          # Check if PR title has # followed by any character
-          if [[ ! $PR_TITLE =~ #[\w\W]+$ ]]; then
+          if [[ ! $PR_TITLE =~ #[[:alnum:]]+$ ]]; then
             echo "PR title does not meet the condition"
             exit 1
           fi
