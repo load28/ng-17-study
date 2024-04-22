@@ -153,9 +153,7 @@ export class ShortOrderService {
 export class AppComponent {
   private readonly orderData = inject(ShortOrderService);
 
-  constructor() {
-    console.log('AppComponent created');
-  }
+  constructor() {}
 
   orderShort(): void {
     const userId = 'test';
