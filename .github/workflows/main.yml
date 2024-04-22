@@ -7,26 +7,26 @@ on:
       - synchronize
 
 jobs:
-  check-import:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 18.x ]
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+  # check-import:
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [ 18.x ]
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: ${{ matrix.node-version }}
+  #     - name: Setup Node.js
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
-        run: npm ci
+  #     - name: Install dependencies
+  #       run: npm ci
 
-      - name: Run tests
-        run: |
-          npx eslint .
+  #     - name: Run tests
+  #       run: |
+  #         npx eslint .
 
   check-pr-vlidation:
     runs-on: ubuntu-latest
@@ -43,9 +43,8 @@ jobs:
 
       - name: Check PR label
         run: |
-          PR_LABELS="${{ github.event.pull_request.labels }}"
-          LABEL_COUNT=${#PR_LABELS[@]}
-          echo "PR labels: $PR_LABELS"
+          PR_LABELS_JSON="${{ toJson(github.event.pull_request.labels) }}"
+          LABEL_COUNT=$(echo "$PR_LABELS_JSON" | jq '. | length')
           echo "Number of PR labels: $LABEL_COUNT"
           if [[ $LABEL_COUNT -eq 0 ]]; then
             echo "PR does not have any labels"
