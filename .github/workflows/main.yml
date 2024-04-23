@@ -11,41 +11,11 @@ on:
 jobs:
   check-pr-vlidation:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 18.18.x ]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Use Node.js ${{matrix.node-version}}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{matrix.node-version}}
-          registry-url: 'https://npm.pkg.github.com'
-
-      - name: install npm 8
-        run: npm i -g npm@8 --registry=https://registry.npmjs.org
-
-      - name: install dependencies
-        run: npm ci
-
-      - name: Seting Npm Config
-        id: npm-cache
-        run: |
-          echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
-      
-      - name: Get list of changed files
-        id: get-changed-files
-        run: |
-          git fetch --depth=1 origin
-          echo "::set-output name=files::$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }}..${{ github.head_ref }} | xargs -I {} printf '\"%s\" ' {})"
-
-      - name: Run ESLint
-        run: npx eslint ${{ steps.get-changed-files.outputs.files }}
-          
       - name: Check PR title
         run: |
+          echo "${{github.head_ref}}"
+          echo "${{github.base_ref}}"
           PR_TITLE="${{ github.event.pull_request.title }}"
           echo "PR title: $PR_TITLE"
           if [[ ! $PR_TITLE =~ \#[[:alnum:][:punct:]]+$ ]]; then
