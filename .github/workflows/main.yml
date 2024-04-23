@@ -40,11 +40,10 @@ jobs:
           
       - name: Check PR title
         run: |
-          PR_LABELS_JSON="${{ toJson(github.event.pull_request.labels) }}"
-          LABEL_COUNT=$(echo "$PR_LABELS_JSON" | jq '. | length')
-          echo "Number of PR labels: $LABEL_COUNT"
-          if [[ $LABEL_COUNT -eq 0 ]]; then
-            echo "PR does not have any labels"
+          PR_TITLE="${{ github.event.pull_request.title }}"
+          echo "PR title: $PR_TITLE"
+          if [[ ! $PR_TITLE =~ \#[[:alnum:][:punct:]]+$ ]]; then
+            echo "PR title does not meet the condition"
             exit 1
           fi
         shell: bash
