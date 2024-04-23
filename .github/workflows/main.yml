@@ -48,16 +48,6 @@ jobs:
           fi
         shell: bash
 
-      - name: Check PR label
-        run: |
-          node -e  "
-            const labels = ${{github.event.pull_request.labels}}
-            if (!labels.length) {
-              process.exit(1);
-            }
-          "
-        shell: bash
-
       - name: Check PR milestone
         run: |
           PR_MILESTONE="${{ github.event.pull_request.milestone }}"
