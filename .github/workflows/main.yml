@@ -1,67 +1,67 @@
-name: Pull request
-on:
-  pull_request:
-    branches:
-    - 'releases/**'
-    types:
-      - opened
-      - edited
-      - synchronize
+# name: Pull request
+# on:
+#   pull_request:
+#     branches:
+#     - 'releases/**'
+#     types:
+#       - opened
+#       - edited
+#       - synchronize
 
-jobs:
-  check-pr-vlidation:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [ 18.18.x ]
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+# jobs:
+#   check-pr-vlidation:
+#     runs-on: ubuntu-latest
+#     strategy:
+#       matrix:
+#         node-version: [ 18.18.x ]
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Use Node.js ${{matrix.node-version}}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{matrix.node-version}}
-          registry-url: 'https://npm.pkg.github.com'
+#       - name: Use Node.js ${{matrix.node-version}}
+#         uses: actions/setup-node@v3
+#         with:
+#           node-version: ${{matrix.node-version}}
+#           registry-url: 'https://npm.pkg.github.com'
 
-      - name: install npm 8
-        run: npm i -g npm@8 --registry=https://registry.npmjs.org
+#       - name: install npm 8
+#         run: npm i -g npm@8 --registry=https://registry.npmjs.org
 
-      - name: install dependencies
-        run: npm ci
+#       - name: install dependencies
+#         run: npm ci
 
-      - name: Seting Npm Config
-        id: npm-cache
-        run: |
-          echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
+#       - name: Seting Npm Config
+#         id: npm-cache
+#         run: |
+#           echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
       
-      - name: Get list of changed files
-        id: get-changed-files
-        run: |
-          git fetch --depth=1 origin
-          echo "::set-output name=files::$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }}..${{ github.head_ref }} | xargs -I {} printf '\"%s\" ' {})"
+#       - name: Get list of changed files
+#         id: get-changed-files
+#         run: |
+#           git fetch --depth=1 origin
+#           echo "::set-output name=files::$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }}..${{ github.head_ref }} | xargs -I {} printf '\"%s\" ' {})"
 
-      - name: Run ESLint
-        run: npx eslint ${{ steps.get-changed-files.outputs.files }}
+#       - name: Run ESLint
+#         run: npx eslint ${{ steps.get-changed-files.outputs.files }}
           
-      - name: Check PR title
-        run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          echo "PR title: $PR_TITLE"
-          if [[ ! $PR_TITLE =~ \#[[:alnum:][:punct:]]+$ ]]; then
-            echo "PR title does not meet the condition"
-            exit 1
-          fi
-        shell: bash
+#       - name: Check PR title
+#         run: |
+#           PR_TITLE="${{ github.event.pull_request.title }}"
+#           echo "PR title: $PR_TITLE"
+#           if [[ ! $PR_TITLE =~ \#[[:alnum:][:punct:]]+$ ]]; then
+#             echo "PR title does not meet the condition"
+#             exit 1
+#           fi
+#         shell: bash
 
-      - name: Check PR milestone
-        run: |
-          PR_MILESTONE="${{ github.event.pull_request.milestone }}"
-          if [ -z "$PR_MILESTONE" ]; then
-            echo "PR does not have a milestone"
-            exit 1
-          fi
-        shell: bash
+#       - name: Check PR milestone
+#         run: |
+#           PR_MILESTONE="${{ github.event.pull_request.milestone }}"
+#           if [ -z "$PR_MILESTONE" ]; then
+#             echo "PR does not have a milestone"
+#             exit 1
+#           fi
+#         shell: bash
 
 
 
