@@ -37,7 +37,7 @@ jobs:
         id: get-changed-files
         run: |
           git fetch origin
-          echo "::set-output name=files::$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }} origin/${{ github.head_ref }} | xargs -I {} printf '\"%s\" ' {})"
+          echo "::set-output name=files::$(git diff --name-only --diff-filter=d ${{ github.head_ref }}..origin/${{ github.base_ref }} | xargs -I {} printf '\"%s\" ' {})"
 
       - name: Run ESLint
         run: npx eslint ${{ steps.get-changed-files.outputs.files }}
