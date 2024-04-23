@@ -25,6 +25,9 @@ jobs:
       - name: install npm 8
         run: npm i -g npm@8 --registry=https://registry.npmjs.org
 
+      - name: install dependencies
+        run: npm ci
+
       - name: Seting Npm Config
         id: npm-cache
         run: |
