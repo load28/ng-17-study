@@ -43,7 +43,7 @@ jobs:
 
       - name: Check PR label
         run: |
-          PR_LABELS_JSON=${{ toJson(github.event.pull_request.labels) }}
+          PR_LABELS_JSON="${{ toJson(github.event.pull_request.labels) }}"
           LABEL_COUNT=$(node -e "console.log(JSON.parse('$PR_LABELS_JSON').length)")
           echo "Number of PR labels: $LABEL_COUNT"
           if [[ $LABEL_COUNT -eq 0 ]]; then
