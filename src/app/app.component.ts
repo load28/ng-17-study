@@ -7,10 +7,10 @@ import { RouterOutlet } from '@angular/router';
  * 1. 유저에게 셔츠를 주문 받는다.
  * 2. 무료 증정 셔츠를 줄 수 있되 색상은 고르거나 가장 적게 팔린 색상을 준다.
  */
-
+a
 type OrderData = { date: string; shirtColor: ShirtColor; amount: number };
 type UserId = string;
-
+console.log('');
 type OrderParams = {
   type: 'Order';
   date: {
@@ -178,6 +178,7 @@ export class AppComponent {
 
   giveFreeShort(): void {
     const freeShirtColor = this.orderData.giveFreeShort();
+    console.log(`무료 증정 셔츠 색상: ${freeShirtColor}`);
     console.log(`무료 증정 셔츠 색상: ${freeShirtColor}`);
   }
 }
