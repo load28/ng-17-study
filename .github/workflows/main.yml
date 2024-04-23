@@ -34,18 +34,17 @@ jobs:
       matrix:
         node-version: [ 18.13.x ]
     steps:
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v3
-        with:
-          node-version: ${{ matrix.node-version }}
-          registry-url: "https://npm.pkg.github.com"
+      - name: Install jq
+        run: sudo apt-get install jq
+        shell: bash
           
       - name: Check PR title
         run: |
-          PR_TITLE="${{ github.event.pull_request.title }}"
-          echo "PR title: $PR_TITLE"
-          if [[ ! $PR_TITLE =~ \#[[:alnum:][:punct:]]+$ ]]; then
-            echo "PR title does not meet the condition"
+          PR_LABELS_JSON="${{ toJson(github.event.pull_request.labels) }}"
+          LABEL_COUNT=$(echo "$PR_LABELS_JSON" | jq '. | length')
+          echo "Number of PR labels: $LABEL_COUNT"
+          if [[ $LABEL_COUNT -eq 0 ]]; then
+            echo "PR does not have any labels"
             exit 1
           fi
         shell: bash
