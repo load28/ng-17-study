@@ -53,7 +53,7 @@ jobs:
           node -e  "
             const labels = ${{github.event.pull_request.labels}}
             if (!labels.length) {
-              throw Error('PR does not have label')
+              process.exit(1);
             }
           "
         shell: bash
