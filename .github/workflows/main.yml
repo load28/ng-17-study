@@ -54,8 +54,6 @@ jobs:
           if [ -z "$PR_MILESTONE" ]; then
             echo "PR does not have a milestone"
             exit 1
-          else
-            echo "PR milestone: $PR_MILESTONE"
           fi
         shell: bash
 
