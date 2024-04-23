@@ -45,7 +45,7 @@ jobs:
         run: |
           PR_LABELS_JSON=${{ github.event.pull_request.labels }}
           echo "Array of PR labels: $PR_LABELS_JSON"
-          LABEL_COUNT=$(node -e "console.log(JSON.parse('$PR_LABELS_JSON').length)")
+          LABEL_COUNT=$(node -e "console.log($PR_LABELS_JSON.length)")
           echo "Number of PR labels: $LABEL_COUNT"
           if [[ $LABEL_COUNT -eq 0 ]]; then
             echo "PR does not have any labels"
