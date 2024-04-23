@@ -10,7 +10,7 @@ import { RouterOutlet } from '@angular/router';
 
 type OrderData = { date: string; shirtColor: ShirtColor; amount: number };
 type UserId = string;
-
+console.log('');
 type OrderParams = {
   type: 'Order';
   date: {
