@@ -1,0 +1,17 @@
+name: Check base branch
+on:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
+
+jobs:
+  check-base-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if base branch is master
+        run: |
+          if [[ "${{ github.base_ref }}" == "main" ]]; then
+            echo "::warning::Base branch is main. Please make sure you want to merge into main."
+          fi
