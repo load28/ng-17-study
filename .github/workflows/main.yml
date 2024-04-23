@@ -30,7 +30,16 @@ jobs:
 
   check-pr-vlidation:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [ 18.13.x ]
     steps:
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          registry-url: "https://npm.pkg.github.com"
+          
       - name: Check PR title
         run: |
           PR_TITLE="${{ github.event.pull_request.title }}"
@@ -43,7 +52,7 @@ jobs:
 
       - name: Check PR label
         run: |
-          PR_LABELS_JSON='${{ toJson(github.event.pull_request.labels) }}'
+          PR_LABELS_JSON="${{ toJson(github.event.pull_request.labels) }}"
           LABEL_COUNT=$(node -e "console.log(JSON.parse('$PR_LABELS_JSON').length)")
           echo "Number of PR labels: $LABEL_COUNT"
           if [[ $LABEL_COUNT -eq 0 ]]; then
