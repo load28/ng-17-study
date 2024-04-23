@@ -2,7 +2,7 @@ name: Pull request
 on:
   pull_request:
     branches:
-    - 'release/*'
+    - 'releases/*'
     types:
       - opened
       - edited
