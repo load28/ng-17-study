@@ -52,6 +52,7 @@ export class ShortOrderService {
 
   constructor() {
     // salesMap을 모든 색상이 0으로 설정하여 초기화
+    console.log('test')
     Object.values(ShirtColor).forEach((color) => this.salesMap.set(color, 0));
   }
 
