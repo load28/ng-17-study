@@ -8,7 +8,7 @@ on:
       - edited
       - synchronize
 
-jobs:
+jobs:               
   check-pr-vlidation:
     runs-on: ubuntu-latest
     strategy:
@@ -24,26 +24,14 @@ jobs:
           node-version: ${{matrix.node-version}}
           registry-url: 'https://npm.pkg.github.com'
 
-      - name: install npm 8
-        run: npm i -g npm@8 --registry=https://registry.npmjs.org
-
-      - name: install dependencies
-        run: npm ci
-
-      - name: Seting Npm Config
-        id: npm-cache
+      - name: Check
         run: |
-          echo "dir=$(npm config get cache)" >> $GITHUB_OUTPUT
-      
-      - name: Get list of changed files
-        id: get-changed-files
-        run: |
-          git fetch --depth=1 origin
-          git merge
-          echo "::set-output name=files::$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }}..${{ github.head_ref }} | xargs -I {} printf '\"%s\" ' {})"
-
-      - name: Run ESLint
-        run: npx eslint ${{ steps.get-changed-files.outputs.files }}
+            npm ci
+            npm run lint-diff
+        env:
+            CI: true
+            BASE: ${{ github.base_ref }}
+            HEAD: ${{ github.head_ref }}
           
       - name: Check PR title
         run: |
