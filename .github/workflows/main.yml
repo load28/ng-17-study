@@ -39,7 +39,6 @@ jobs:
         id: get-changed-files
         run: |
           git fetch --depth=1 origin
-          git merge
           echo "::set-output name=files::$(git diff --name-only --diff-filter=d origin/${{ github.base_ref }}..${{ github.head_ref }} | xargs -I {} printf '\"%s\" ' {})"
 
       - name: Run ESLint
