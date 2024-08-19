@@ -30,6 +30,8 @@ type UpdateOrderParams = {
   };
 };
 
+
+// shirt color
 enum ShirtColor {
   Red = 'Red',
   Blue = 'Blue',
